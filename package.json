@@ -1,0 +1,16 @@
+{
+  "name": "ekg",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Ilya Timofeev <il.tmfv@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "prebuild": "lein clean",
+    "predeploy": "yarn build",
+    "build": "lein cljsbuild once min",
+    "deploy": "gh-pages -d resources/public"
+  },
+  "devDependencies": {
+    "gh-pages": "^2.0.1"
+  }
+}
