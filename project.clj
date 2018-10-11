@@ -14,7 +14,14 @@
                  [org.clojure/core.async  "0.4.474"]]
 
   :plugins [[lein-figwheel "0.5.16"]
+            [lein-kibit "0.1.6"]
+            [jonase/eastwood "0.3.1"]
             [lein-cljsbuild "1.1.7" :exclusions [[org.clojure/clojure]]]]
+
+  :aliases {"lint"
+            ["do"
+             ["eastwood" "{:sourse-paths [\"src\"]}"]
+             ["kibit"]]}
 
   :source-paths ["src"]
 
