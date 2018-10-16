@@ -20,7 +20,7 @@
 
   :aliases {"lint"
             ["do"
-             ["eastwood" "{:sourse-paths [\"src\"]}"]
+             ["eastwood" "{:source-paths [\"src\"]}"]
              ["kibit"]]}
 
   :source-paths ["src"]
