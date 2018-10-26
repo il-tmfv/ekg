@@ -3,7 +3,9 @@
             [ekg.state :refer [state
                                reset-history
                                cursor-for
-                               get-history-as-str]]
+                               get-history-as-str
+                               add-current-to-history
+                               current-already-saved?]]
             [ekg.utils :refer [value-from
                                parse-file-reader-result
                                download-as-file
@@ -37,15 +39,26 @@
                              :on-change change-input}])))
 
 (defn Download []
-  [:button {:on-click #(download-as-file
-                        (generate-filename)
-                        (get-history-as-str))}
+  [:button.non-printable {:on-click #(download-as-file
+                                      (generate-filename)
+                                      (get-history-as-str))}
    "Сохранить базу"])
+
+(defn Save []
+  [:button.non-printable {:on-click #(add-current-to-history)
+                          :disabled @current-already-saved?}
+   "Сохранить в базу"])
+
+(defn Print []
+  [:button.non-printable {:on-click #(.print js/window)}
+   "Распечатать"])
 
 (defn app []
   [:div.page
    [Upload]
    [Download]
+   [Save]
+   [Print]
    [:img {:src "/images/header.png"}]
    [:table
     [:tbody

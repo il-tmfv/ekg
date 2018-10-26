@@ -1,4 +1,5 @@
 (ns ekg.state
+  (:require-macros [reagent.ratom :refer [reaction]])
   (:require [reagent.core :as r]))
 
 (def ^:private initial-current-state {:P+ ""
@@ -21,3 +22,12 @@
 (defn cursor-for [path]
   (let [full-path (into [:current] path)]
     (r/cursor state full-path)))
+
+(defn add-current-to-history []
+  (let [current (:current @state)]
+    (swap! state update-in [:history] #(conj % current))))
+
+(def current-already-saved?
+  (reaction (let [current (:current @state)
+                  history (:history @state)]
+              (some #(= % current) history))))
