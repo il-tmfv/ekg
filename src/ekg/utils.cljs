@@ -23,3 +23,7 @@
     (-> js/document .-body (.appendChild element))
     (.click element)
     (-> js/document .-body (.removeChild element))))
+
+(defn with-confirm [text on-yes]
+  (fn []
+    (when (.confirm js/window text) (on-yes))))

@@ -5,11 +5,13 @@
                                cursor-for
                                get-history-as-str
                                add-current-to-history
-                               current-already-saved?]]
+                               current-already-saved?
+                               init-current!]]
             [ekg.utils :refer [value-from
                                parse-file-reader-result
                                download-as-file
-                               generate-filename]]))
+                               generate-filename
+                               with-confirm]]))
 
 (enable-console-print!)
 
@@ -53,12 +55,17 @@
   [:button.non-printable {:on-click #(.print js/window)}
    "Распечатать"])
 
+(defn Clear []
+  [:button.non-printable {:on-click (with-confirm "Точно очистить?" init-current!)}
+   "Очистить"])
+
 (defn app []
   [:div.page
    [Upload]
    [Download]
    [Save]
    [Print]
+   [Clear]
    [:img {:src "/images/header.png"}]
    [:table
     [:tbody

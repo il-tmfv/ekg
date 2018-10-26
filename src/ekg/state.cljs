@@ -8,7 +8,7 @@
 (defonce state (r/atom {:history []
                         :current initial-current-state}))
 
-(defn init-current []
+(defn init-current! []
   (swap! state assoc-in [:current] initial-current-state))
 
 (defn reset-history [new-history]
