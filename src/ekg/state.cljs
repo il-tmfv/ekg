@@ -8,14 +8,17 @@
 (defonce state (r/atom {:history []
                         :current initial-current-state}))
 
+(def history (r/cursor state [:history]))
+(def current (r/cursor state [:current]))
+
 (defn init-current! []
-  (swap! state assoc-in [:current] initial-current-state))
+  (reset! current initial-current-state))
 
 (defn reset-history [new-history]
-  (swap! state assoc-in [:history] new-history))
+  (reset! history new-history))
 
 (defn get-history-as-str []
-  (-> (get @state :history)
+  (-> @history
       clj->js
       js/JSON.stringify))
 
@@ -24,14 +27,10 @@
     (r/cursor state full-path)))
 
 (defn add-current-to-history []
-  (let [current (:current @state)]
-    (swap! state update-in [:history] #(conj % current))))
+  (swap! history #(conj % @current)))
 
 (def current-already-saved?
-  (reaction (let [current (:current @state)
-                  history (:history @state)]
-              (some #(= % current) history))))
+  (reaction (some #(= % @current) @history)))
 
 (def records-count
-  (reaction (let [history (:history @state)]
-              (count history))))
+  (reaction (count @history)))
