@@ -1,7 +1,13 @@
 (ns ekg.core
   (:require [reagent.core :as r]
-            [ekg.state :refer [state reset-history cursor-for]]
-            [ekg.utils :refer [value-from parse-file-reader-result]]))
+            [ekg.state :refer [state
+                               reset-history
+                               cursor-for
+                               get-history-as-str]]
+            [ekg.utils :refer [value-from
+                               parse-file-reader-result
+                               download-as-file
+                               generate-filename]]))
 
 (enable-console-print!)
 
@@ -30,9 +36,16 @@
                              :ref capture-ref
                              :on-change change-input}])))
 
+(defn Download []
+  [:button {:on-click #(download-as-file
+                        (generate-filename)
+                        (get-history-as-str))}
+   "Сохранить базу"])
+
 (defn app []
   [:div.page
    [Upload]
+   [Download]
    [:img {:src "/images/header.png"}]
    [:table
     [:tbody

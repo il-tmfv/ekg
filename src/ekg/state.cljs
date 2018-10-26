@@ -11,8 +11,12 @@
   (swap! state assoc-in [:current] initial-current-state))
 
 (defn reset-history [new-history]
-  (println new-history)
-  (swap! state assoc-in [:histoty] new-history))
+  (swap! state assoc-in [:history] new-history))
+
+(defn get-history-as-str []
+  (-> (get @state :history)
+      clj->js
+      js/JSON.stringify))
 
 (defn cursor-for [path]
   (let [full-path (into [:current] path)]
