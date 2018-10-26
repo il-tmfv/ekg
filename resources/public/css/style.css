@@ -29,3 +29,9 @@ td > input {
     border-width: 0px;
   }
 }
+
+@media print {
+  .non-printable {
+    display: none;
+  }
+}
