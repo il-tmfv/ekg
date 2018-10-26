@@ -6,7 +6,8 @@
                                get-history-as-str
                                add-current-to-history
                                current-already-saved?
-                               init-current!]]
+                               init-current!
+                               records-count]]
             [ekg.utils :refer [value-from
                                parse-file-reader-result
                                download-as-file
@@ -59,6 +60,9 @@
   [:button.non-printable {:on-click (with-confirm "Точно очистить?" init-current!)}
    "Очистить"])
 
+(defn DatabaseCounter []
+  [:div.non-printable (str "В базе " @records-count " записей")])
+
 (defn app []
   [:div.page
    [Upload]
@@ -66,6 +70,7 @@
    [Save]
    [Print]
    [Clear]
+   [DatabaseCounter]
    [:img {:src "/images/header.png"}]
    [:table
     [:tbody

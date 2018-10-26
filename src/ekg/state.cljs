@@ -31,3 +31,7 @@
   (reaction (let [current (:current @state)
                   history (:history @state)]
               (some #(= % current) history))))
+
+(def records-count
+  (reaction (let [history (:history @state)]
+              (count history))))
