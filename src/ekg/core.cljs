@@ -1,31 +1,27 @@
 (ns ekg.core
-  (:require [reagent.core :as r]))
+  (:require [reagent.core :as r]
+            [ekg.state :refer [state cursor-for]]
+            [ekg.utils :refer [value-from]]))
 
 (enable-console-print!)
 
-(println "This text is printed from src/ekg/core.cljs. Go ahead and edit it and see reloading in action.")
-
-(defonce app-state (r/atom {}))
-
-(defn on-js-reload []
-  ;; optionally touch your app-state to force rerendering depending on
-  ;; your application
-  ;; (swap! app-state update-in [:__figwheel_counter] inc)
-)
-
-(defn TextRow [label value*]
-  [:tr
-   [:td label]
-   [:td
-    [:input {:type "text" :on-change #(reset! value* (-> % .-target .-value))}]]])
+(defn TextRow [label path]
+  (let [value* (cursor-for path)]
+    (fn []
+      [:tr
+       [:td label]
+       [:td
+        [:input {:type "text"
+                 :value @value*
+                 :on-change #(reset! value* (value-from %))}]]])))
 
 (defn app []
   [:div.page
    [:img {:src "/images/header.png"}]
    [:table
     [:tbody
-     [TextRow "P (+)" (r/atom "")]
-     [TextRow "P (-)" (r/atom "")]]]
+     [TextRow "P (+)" [:P+]]
+     [TextRow "P (-)" [:P-]]]]
    [:img {:src "/images/footer.png"}]])
 
 (r/render [app] (.getElementById js/document "app"))
